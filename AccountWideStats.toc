@@ -1,0 +1,8 @@
+## Interface: 90200
+## Title: AccountWideStats
+## Notes: Displays account-wide aggregate stats.
+## Author: Vidde
+## Version: 0.0.1
+## SavedVariables: AccountDB
+
+AccountWideStats.lua
