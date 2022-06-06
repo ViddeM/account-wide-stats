@@ -15,8 +15,7 @@ local vals = {
 -- Displays the actual stats for the given category
 function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFrame, statsFrameWidth, scrollBar, categories)
     local statCount = GetCategoryNumAchievements(categoryID);
-    print("Category: " .. categoryName .. " -- " .. statCount);
-
+    
     for offset = 1, statCount do
         local id, statName = GetAchievementInfo(categoryID, offset);
     

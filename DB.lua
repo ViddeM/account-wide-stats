@@ -52,10 +52,10 @@ function DB:SaveStats()
         if stats[id] == nil then
             stats[id] = {}
         end
-        categories[cat.id] = SaveStatsForCategory(cat.id, name, stats);
+        SaveStatsForCategory(cat.id, name, stats);
 
         for c, child in pairs(cat.children) do
-            categories[child.id] = SaveStatsForCategory(child.id, name, stats);
+            SaveStatsForCategory(child.id, name, stats);
         end
     end
 

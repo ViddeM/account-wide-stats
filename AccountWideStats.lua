@@ -49,7 +49,6 @@ function core:init(eventName, addonName, ...)
     if addonName ~= ADDON_NAME then
         return
     end
-    print("AccountWideStats -- Loaded (" .. eventName .. ")");
     -- Save stats to accountDB
     core.DB:SaveStats();
 end
