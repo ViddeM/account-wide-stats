@@ -22,21 +22,42 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
         local id, statName = GetAchievementInfo(categoryID, offset);
         -- local statVal, skip =  GetStatistic(id);
     
-        if offset > statsTexts.count then 
+        if offset > statsTexts.count then
+            local yOffset = - (offset - 1) * (vals.buttonHeight + vals.buttonSpacing);
+
+            local row = CreateFrame("Frame", nil, statsFrame);
+            row:SetPoint("TOPLEFT", statsFrame, "TOPLEFT", 0, yOffset);
+            row:SetPoint("BOTTOMRIGHT", statsFrame, "TOPRIGHT", -20, yOffset - vals.buttonHeight);
+
+
             local obj = {
                 name = statsFrame:CreateFontString(nil, "ARTWORK"),
-                value = statsFrame:CreateFontString(nil, "ARTWORK")
+                value = statsFrame:CreateFontString(nil, "ARTWORK"),
+                row = row
             }
-
-            local yOffset = -4 - (offset - 1) * (vals.buttonHeight + vals.buttonSpacing);
+              
 
             obj.name:SetFontObject("GameFontHighlight");
-            obj.name:SetPoint("TOPLEFT", statsFrame, "TOPLEFT", 0, yOffset);
+            obj.name:SetPoint("LEFT", row, "LEFT");
             obj.name:SetText(statName);
 
             obj.value:SetFontObject("GameFontHighlight");
-            obj.value:SetPoint("TOPRIGHT", statsFrame, "TOPRIGHT", -20, yOffset);
+            obj.value:SetPoint("RIGHT", row, "RIGHT");
             obj.value:SetText(categories[id].val);
+              
+            -- Handle tooltip
+            obj.row:SetScript("OnEnter", function(self)
+                GameTooltip:SetOwner(self);
+                GameTooltip:AddLine("Per character breakdown");
+                for name, val in pairs(categories[id].chars) do
+                    GameTooltip:AddLine(name .. " -- " .. val);
+                end
+                GameTooltip:Show();
+            end)
+
+            obj.row:SetScript("OnLeave", function(self)
+                GameTooltip:Hide();
+            end)
 
             statsTexts[offset] = obj;
             statsTexts.count = statsTexts.count + 1;
@@ -45,16 +66,16 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
             statsTexts[offset].value:SetText(categories[id].val);
         end
 
+        statsTexts[offset].row:Show();
         statsTexts[offset].name:Show();
         statsTexts[offset].value:Show();
     end
 
     if statCount < statsTexts.count then
         for extra = statCount + 1, statsTexts.count do
-            statsTexts[extra].name:Hide();
+            statsTexts[extra].row:Hide();
             statsTexts[extra].value:Hide();
-            -- statsTexts[extra].name:SetText("");
-            -- statsTexts[extra].value:SetText("");
+            statsTexts[extra].name:Hide();
         end
     end
 

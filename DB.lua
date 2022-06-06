@@ -68,9 +68,10 @@ function DB:LoadStats()
     for statId, chars in pairs(stats) do
         local statSum = 0;
         local statObj = {};
+        statObj.chars = {};
         for name, val in pairs(chars) do
             statSum = statSum + val;
-            statObj[name] = val;
+            statObj.chars[name] = val;
         end
 
         statObj.val = statSum;
