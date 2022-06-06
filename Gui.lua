@@ -45,16 +45,6 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
             obj.value:SetPoint("RIGHT", row, "RIGHT");
             obj.value:SetText(categories[id].val);
               
-            -- Handle tooltip
-            obj.row:SetScript("OnEnter", function(self)
-                GameTooltip:SetOwner(self);
-                GameTooltip:AddLine("Per character breakdown");
-                for name, val in pairs(categories[id].chars) do
-                    GameTooltip:AddLine(name .. " -- " .. val);
-                end
-                GameTooltip:Show();
-            end)
-
             obj.row:SetScript("OnLeave", function(self)
                 GameTooltip:Hide();
             end)
@@ -66,9 +56,19 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
             statsTexts[offset].value:SetText(categories[id].val);
         end
 
+        -- Handle tooltip
+        statsTexts[offset].row:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self);
+            GameTooltip:AddLine(statName .. ":");
+            for name, val in pairs(categories[id].chars) do
+                GameTooltip:AddLine(name .. " -- " .. val);
+            end
+            GameTooltip:Show();
+        end)
+
         statsTexts[offset].row:Show();
         statsTexts[offset].name:Show();
-        statsTexts[offset].value:Show();
+        statsTexts[offset].value:Show();    
     end
 
     if statCount < statsTexts.count then
