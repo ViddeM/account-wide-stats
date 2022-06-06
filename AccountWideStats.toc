@@ -6,3 +6,7 @@
 ## SavedVariables: AccountDB
 
 AccountWideStats.lua
+Util.lua
+Print.lua
+Gui.lua
+DB.lua
