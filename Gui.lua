@@ -17,12 +17,11 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
     local statCount = GetCategoryNumAchievements(categoryID);
     print("Category: " .. categoryName .. " -- " .. statCount);
 
-    -- Fill it with the stats
     for offset = 1, statCount do
         local id, statName = GetAchievementInfo(categoryID, offset);
-        -- local statVal, skip =  GetStatistic(id);
     
         if offset > statsTexts.count then
+            -- We haven't yet created this many rows, create a new one
             local yOffset = - (offset - 1) * (vals.buttonHeight + vals.buttonSpacing);
 
             local row = CreateFrame("Frame", nil, statsFrame);
@@ -39,11 +38,9 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
 
             obj.name:SetFontObject("GameFontHighlight");
             obj.name:SetPoint("LEFT", row, "LEFT");
-            obj.name:SetText(statName);
 
             obj.value:SetFontObject("GameFontHighlight");
             obj.value:SetPoint("RIGHT", row, "RIGHT");
-            obj.value:SetText(categories[id].val);
               
             obj.row:SetScript("OnLeave", function(self)
                 GameTooltip:Hide();
@@ -51,10 +48,11 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
 
             statsTexts[offset] = obj;
             statsTexts.count = statsTexts.count + 1;
-        else
-            statsTexts[offset].name:SetText(statName);
-            statsTexts[offset].value:SetText(categories[id].val);
         end
+
+        -- Fill the row with texts
+        statsTexts[offset].name:SetText(statName);
+        statsTexts[offset].value:SetText(categories[id].val);
 
         -- Handle tooltip
         statsTexts[offset].row:SetScript("OnEnter", function(self)
@@ -72,6 +70,7 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
     end
 
     if statCount < statsTexts.count then
+        -- Hide any rows that we haven't updated
         for extra = statCount + 1, statsTexts.count do
             statsTexts[extra].row:Hide();
             statsTexts[extra].value:Hide();
@@ -79,6 +78,7 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
         end
     end
 
+    -- Ensure that the scroll area isn't too big & hide scrollbar if necessary.
     local totalStatsHeight = 4 + (statCount) * (vals.buttonHeight + vals.buttonSpacing);
     if totalStatsHeight <= vals.windowHeight then
         statsFrame:SetSize(statsFrameWidth, totalStatsHeight);
