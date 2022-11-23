@@ -45,7 +45,7 @@ SLASH_STATS1 = "/stats"
 SlashCmdList["STATS"] = ShowStats;
 
 -- Init
-function core:init(eventName, addonName, ...)
+function core:HandleEvent(eventName, addonName, ...)
     if addonName ~= ADDON_NAME then
         return
     end
@@ -56,4 +56,5 @@ end
 -- Register init
 local events = CreateFrame("Frame");
 events:RegisterEvent("ADDON_LOADED");
-events:SetScript("OnEvent", core.init);
+events:RegisterEvent("PLAYER_LOGOUT");
+events:SetScript("OnEvent", core.HandleEvent);

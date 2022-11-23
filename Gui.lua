@@ -57,9 +57,15 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
         statsTexts[offset].row:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self);
             GameTooltip:AddLine(statName .. ":");
-            for name, val in pairs(categories[id].chars) do
-                GameTooltip:AddLine(name .. " -- " .. val);
+
+            local chars = categories[id].chars;
+            local sortedKeys = core.Util:getKeysSortedByValue(chars, function(a, b) return a > b; end);
+           
+            for _, name in ipairs(sortedKeys) do
+                local val = chars[name];
+                GameTooltip:AddLine(val .. " -- " .. name);         
             end
+
             GameTooltip:Show();
         end)
 
