@@ -55,7 +55,7 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
 
         -- Handle tooltip
         statsTexts[offset].row:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self);
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
             GameTooltip:AddLine(statName .. ":");
 
             local chars = categories[id].chars;
