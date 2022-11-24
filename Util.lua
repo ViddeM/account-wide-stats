@@ -36,3 +36,19 @@ function Util:getKeysSortedByValue(tbl, sortFunction)
 
     return keys;
 end
+
+function Util:findLongestValue(tbl)
+    local len = 0;
+    for _, val in pairs(tbl) do
+        local curr = string.len(tostring(val));
+        print("Len: " .. len .. " curr: " .. curr .. " val? " .. val);
+        if curr > len then
+            len = curr;
+        end
+    end
+    return len;
+end
+
+string.lpad = function(str, len)
+    return str .. string.rep(' ', len - #str);
+end

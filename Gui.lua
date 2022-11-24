@@ -13,7 +13,7 @@ local vals = {
 }
 
 -- Displays the actual stats for the given category
-function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFrame, statsFrameWidth, scrollBar, categories)
+function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFrame, statsFrameWidth, scrollBar, categories, characters)
     local statCount = GetCategoryNumAchievements(categoryID);
     
     for offset = 1, statCount do
@@ -60,10 +60,14 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
 
             local chars = categories[id].chars;
             local sortedKeys = core.Util:getKeysSortedByValue(chars, function(a, b) return a > b; end);
-           
+
             for _, name in ipairs(sortedKeys) do
-                local val = chars[name];
-                GameTooltip:AddLine(val .. " -- " .. name);         
+                local val = tostring(chars[name]);
+                local realm = characters[name];
+                if realm == nil then 
+                    realm = '??'; 
+                end
+                GameTooltip:AddLine(val .. " -- " .. name .. "(" .. realm .. ")");
             end
 
             GameTooltip:Show();
@@ -92,7 +96,7 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
 end
 
 -- Loads and displays the stats categories that exist
-function GUI:ShowStatCategories(categories)
+function GUI:ShowStatCategories(categories, characters)
     -- Main UI window
     local UIConfig = CreateFrame("Frame", "AccountWideStats", UIParent, "UIPanelDialogTemplate");
     UIConfig:SetSize(vals.windowWidth, vals.windowHeight);
@@ -184,7 +188,7 @@ function GUI:ShowStatCategories(categories)
         if btn.childCount == 0 then
             -- Register button to show stats for the category
             btn:SetScript("OnClick", function(...)
-                GUI:ShowStatsForCategory(btn.catID, btn.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories);
+                GUI:ShowStatsForCategory(btn.catID, btn.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);
             end)
         else
             -- Toggle open subcategories
@@ -195,7 +199,7 @@ function GUI:ShowStatCategories(categories)
             -- Register button to show stats for the children.
             for n, child in pairs(btn.children) do
                 child:SetScript("OnClick", function(...)
-                    GUI:ShowStatsForCategory(child.catID, child.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories);                        
+                    GUI:ShowStatsForCategory(child.catID, child.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);                        
                 end)
             end
         end

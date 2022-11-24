@@ -38,14 +38,18 @@ end
 
 function DB:SaveStats()
     local name = UnitName("player");
-    print("Saving stats for " .. name);
+    local realm = GetRealmName();
+    print("Saving stats for " .. name .. "(" .. realm .. ")");
 
     if AccountDB == nil then
         AccountDB = {};
         AccountDB.stats = {};
+        AccountDB.characters = {};
     end
 
     local stats = AccountDB.stats;
+    local characters = AccountDB.characters;
+    characters[name] = realm;
 
     local categories = core:GetStatCategories();
     for id, cat in pairs(categories) do
@@ -62,7 +66,9 @@ function DB:SaveStats()
     print("Done saving stats");
 end
 
-function DB:LoadStats()
+function DB:LoadDB()
+    local characters = AccountDB.characters;
+    
     local stats = AccountDB.stats;
     local categories = {};
     for statId, chars in pairs(stats) do
@@ -77,5 +83,6 @@ function DB:LoadStats()
         statObj.val = statSum;
         categories[statId] = statObj;
     end
-    return categories;
+
+    return categories, characters;
 end

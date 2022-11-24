@@ -36,8 +36,8 @@ function core:GetStatCategories()
 end
 
 local function ShowStats()
-    local categories = core.DB:LoadStats();
-    core.GUI:ShowStatCategories(categories);
+    local stats, characters = core.DB:LoadDB();
+    core.GUI:ShowStatCategories(stats, characters);
 end
 
 -- Register slash event
