@@ -26,14 +26,12 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
             local row = CreateFrame("Frame", nil, statsFrame);
             row:SetPoint("TOPLEFT", statsFrame, "TOPLEFT", 0, yOffset);
             row:SetPoint("BOTTOMRIGHT", statsFrame, "TOPRIGHT", -20, yOffset - vals.buttonHeight);
-
-
+            
             local obj = {
                 name = statsFrame:CreateFontString(nil, "ARTWORK"),
                 value = statsFrame:CreateFontString(nil, "ARTWORK"),
                 row = row
             }
-              
 
             obj.name:SetFontObject("GameFontHighlight");
             obj.name:SetPoint("LEFT", row, "LEFT");
@@ -191,9 +189,10 @@ function GUI:ShowStatCategories(categories, characters)
                 GUI:ShowStatsForCategory(btn.catID, btn.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);
             end)
         else
-            -- Toggle open subcategories
+            -- Toggle open subcategories & show general stats
             btn:SetScript("OnClick", function(...)
                 GUI:ToggleStatCategory(buttons, count, buttonsFrame, btn.id, UIConfig.ScrollFrame.ScrollBar);
+                GUI:ShowStatsForCategory(btn.catID, btn.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);
             end)
 
             -- Register button to show stats for the children.
