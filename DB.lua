@@ -23,8 +23,7 @@ local function SaveStatsForCategory(categoryID, characterName, categoryStats)
     local count = GetCategoryNumAchievements(categoryID);
 
     for offset = 1, count do
-        local id = GetAchievementInfo(categoryID, offset);
-        local valString = GetStatistic(id);
+        local valString, _, id = GetStatistic(categoryID, offset);        
         local val = StatStringToNum(valString);
    
         if categoryStats[id] == nil then
