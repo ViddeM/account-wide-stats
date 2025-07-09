@@ -2,12 +2,12 @@ local _, core = ...;
 core.Print = {};
 local Printing = core.Print;
 
-function Print:PrintCategory(prefix, id, name)
+function core.Print:PrintCategory(prefix, id, name)
     local numStats = GetCategoryNumAchievements(id);
     print(prefix .. " - " .. name .. " (id: " .. id .. ") => " .. numStats .. " stats)");
 end
 
-function Print:PrintCategoryStats(id)
+function core.Print:PrintCategoryStats(id)
     local total = GetCategoryNumAchievements(id);
     for offset = 1, total do
         local achievementID, name = GetAchievementInfo(id, offset);
@@ -16,7 +16,7 @@ function Print:PrintCategoryStats(id)
     end
 end
 
-function Print:PrintStatCategories()
+function core.Print:PrintStatCategories()
     local topLevelCategories, categories = GetStatCategories();
     print("Found " .. #categories .. " statistics categories");
 
