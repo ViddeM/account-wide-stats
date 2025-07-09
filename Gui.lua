@@ -114,6 +114,10 @@ function GUI:ShowStatCategories(categories, characters)
     UIConfig.ScrollFrame.ScrollBar:SetPoint("TOPLEFT", UIConfig.ScrollFrame, "TOPLEFT", vals.scrollWidth + 10, -18);
     UIConfig.ScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", UIConfig.ScrollFrame, "BOTTOMLEFT", vals.scrollWidth + 10, 18);
 
+    _G[UIConfig:GetName()] = UIConfig;
+    -- Ensure that we can press escape to close the window.
+    table.insert(UISpecialFrames, UIConfig:GetName());
+
     -- Setup ChildFrame (scroll-window)
     local buttonsFrame = CreateFrame("Frame", nil, UIConfig.ScrollFrame);
     buttonsFrame:SetSize(vals.scrollWidth, vals.scrollHeight);

@@ -2,7 +2,7 @@
 ## Title: AccountWideStats
 ## Notes: Displays account-wide aggregate stats.
 ## Author: Vidde
-## Version: 1.0.2
+## Version: 1.1.0
 ## SavedVariables: AccountDB
 
 AccountWideStats.lua
