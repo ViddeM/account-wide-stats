@@ -49,7 +49,12 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
 
         -- Fill the row with texts
         statsTexts[offset].name:SetText(statName);
-        statsTexts[offset].value:SetText(categories[id].val);
+        local isMoney = categories[id].isMoney;
+        local function FormatVal(v)
+            if isMoney then return GetMoneyString(v, true); end
+            return tostring(v);
+        end
+        statsTexts[offset].value:SetText(FormatVal(categories[id].val));
 
         -- Handle tooltip
         statsTexts[offset].row:SetScript("OnEnter", function(self)
@@ -60,12 +65,11 @@ function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFra
             local sortedKeys = core.Util:getKeysSortedByValue(chars, function(a, b) return a > b; end);
 
             for _, name in ipairs(sortedKeys) do
-                local val = tostring(chars[name]);
                 local realm = characters[name];
                 if realm == nil then 
                     realm = '??'; 
                 end
-                GameTooltip:AddLine(val .. " -- " .. name .. "(" .. realm .. ")");
+                GameTooltip:AddLine(FormatVal(chars[name]) .. " -- " .. name .. "(" .. realm .. ")");
             end
 
             GameTooltip:Show();
