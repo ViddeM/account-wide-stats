@@ -28,7 +28,7 @@ local function SaveStatsForCategory(categoryID, characterName, categoryStats)
 
     for offset = 1, count do
         local valString, _, id = GetStatistic(categoryID, offset);        
-        local val = StatStringToNum(valString);
+        local val, isMoney = StatStringToNum(valString);
    
         if categoryStats[id] == nil then
             categoryStats[id] = {}
