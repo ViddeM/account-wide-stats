@@ -103,6 +103,16 @@ function GUI:ShowStatCategories(categories, characters)
     local UIConfig = CreateFrame("Frame", "AccountWideStats", UIParent, "UIPanelDialogTemplate");
     UIConfig:SetSize(vals.windowWidth, vals.windowHeight);
     UIConfig:SetPoint("CENTER");
+    UIConfig:SetMovable(true);
+    UIConfig:EnableMouse(true);
+    UIConfig:RegisterForDrag("LeftButton");
+    UIConfig:SetClampedToScreen(true);
+    UIConfig:SetScript("OnDragStart", function(self)
+        self:StartMoving();
+    end);
+    UIConfig:SetScript("OnDragStop", function(self)
+        self:StopMovingOrSizing();
+    end);
 
     -- Window title
     UIConfig.title = UIConfig:CreateFontString(nil, "OVERLAY");
