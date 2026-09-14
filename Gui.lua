@@ -101,10 +101,12 @@ function GUI:ShowStatsForCategory(categoryID)
     end
 
     -- Ensure that the scroll area isn't too big & hide scrollbar if necessary.
-    local totalStatsHeight = 4 + (statCount) * (vals.buttonHeight + vals.buttonSpacing);
+    local totalStatsHeight = 4 + statCount * (vals.buttonHeight + vals.buttonSpacing);
+    statsFrame:SetSize(statsFrameWidth, totalStatsHeight);
     if totalStatsHeight <= vals.windowHeight then
-        statsFrame:SetSize(statsFrameWidth, totalStatsHeight);
         scrollBar:Hide();
+    else
+        scrollBar:Show();
     end
 end
 
@@ -259,9 +261,11 @@ function GUI:ShowStatCategories(categories, characters)
     end
 
     local totalChildHeight = vals.buttonTopOffset + count * (vals.buttonHeight + vals.buttonSpacing);
+    buttonsFrame:SetSize(vals.scrollWidth, totalChildHeight);
     if totalChildHeight <= vals.windowHeight then
-        buttonsFrame:SetSize(vals.scrollWidth, totalChildHeight);
         UIConfig.ScrollFrame.ScrollBar:Hide();
+    else
+        UIConfig.ScrollFrame.ScrollBar:Show();
     end
 end
 
@@ -300,8 +304,10 @@ function GUI:ToggleStatCategory(buttons, buttonCount, buttonsFrame, toggleID, sc
     end
 
     local totalChildHeight = vals.buttonTopOffset + count * (vals.buttonHeight + vals.buttonSpacing);
+    buttonsFrame:SetSize(vals.scrollWidth, totalChildHeight);
     if totalChildHeight <= vals.windowHeight then
-        buttonsFrame:SetSize(vals.scrollWidth, totalChildHeight);
         scrollBar:Hide();
+    else
+        scrollBar:Show();
     end
 end
