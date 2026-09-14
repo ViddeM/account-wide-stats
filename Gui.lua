@@ -137,15 +137,18 @@ function GUI:ShowStatCategories(categories, characters)
     end);
 
     -- Window title
+    local titleBackground = _G[UIConfig:GetName() .. "TitleBG"];
+    local dialogBackground = _G[UIConfig:GetName() .. "DialogBG"];
+
     UIConfig.title = UIConfig:CreateFontString(nil, "OVERLAY");
     UIConfig.title:SetFontObject("GameFontHighlight");
-    UIConfig.title:SetPoint("LEFT", AccountWideStatsTitleBG, "LEFT", 5, 0);
+    UIConfig.title:SetPoint("LEFT", titleBackground, "LEFT", 5, 0);
     UIConfig.title:SetText("Account Wide Stats");
 
     -- Setup scrollframe
     UIConfig.ScrollFrame = CreateFrame("ScrollFrame", nil, UIConfig, "UIPanelScrollFrameTemplate");
-    UIConfig.ScrollFrame:SetPoint("TOPLEFT", AccountWideStatsDialogBG, "TOPLEFT", 4, -8);
-    UIConfig.ScrollFrame:SetPoint("BOTTOMRIGHT", AccountWideStatsDialogBG, "BOTTOMLEFT", vals.scrollWidth + 25, 4);
+    UIConfig.ScrollFrame:SetPoint("TOPLEFT", dialogBackground, "TOPLEFT", 4, -8);
+    UIConfig.ScrollFrame:SetPoint("BOTTOMRIGHT", dialogBackground, "BOTTOMLEFT", vals.scrollWidth + 25, 4);
 
     UIConfig.ScrollFrame.ScrollBar:SetPoint("TOPLEFT", UIConfig.ScrollFrame, "TOPLEFT", vals.scrollWidth + 10, -18);
     UIConfig.ScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", UIConfig.ScrollFrame, "BOTTOMLEFT", vals.scrollWidth + 10, 18);
@@ -176,8 +179,8 @@ function GUI:ShowStatCategories(categories, characters)
  
     -- Setup scrollframe
     UIConfig.StatsScrollFrame = CreateFrame("ScrollFrame", nil, UIConfig, "UIPanelScrollFrameTemplate");
-    UIConfig.StatsScrollFrame:SetPoint("TOPLEFT", AccountWideStatsDialogBG, "TOPLEFT", vals.scrollWidth + 25, -8);
-    UIConfig.StatsScrollFrame:SetPoint("BOTTOMRIGHT", AccountWideStatsDialogBG, "BOTTOMRIGHT", 0, 4);
+    UIConfig.StatsScrollFrame:SetPoint("TOPLEFT", dialogBackground, "TOPLEFT", vals.scrollWidth + 25, -8);
+    UIConfig.StatsScrollFrame:SetPoint("BOTTOMRIGHT", dialogBackground, "BOTTOMRIGHT", 0, 4);
 
     UIConfig.StatsScrollFrame.ScrollBar:SetPoint("TOPLEFT", UIConfig.StatsScrollFrame, "TOPRIGHT", -14, -18);
     UIConfig.StatsScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", UIConfig.StatsScrollFrame, "BOTTOMRIGHT", -4, 18);
