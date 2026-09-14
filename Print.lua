@@ -1,6 +1,5 @@
 local _, core = ...;
 core.Print = {};
-local Printing = core.Print;
 
 function core.Print:PrintCategory(prefix, id, name)
     local numStats = GetCategoryNumAchievements(id);
@@ -17,15 +16,15 @@ function core.Print:PrintCategoryStats(id)
 end
 
 function core.Print:PrintStatCategories()
-    local topLevelCategories, categories = GetStatCategories();
+    local topLevelCategories, categories = core:GetStatCategories();
     print("Found " .. #categories .. " statistics categories");
 
     print("They are:");
 
-    for key, val in pairs(topLevelCategories) do
-        Print:PrintCategory("\t", val.id, val.name);
-        for c, child in pairs(val.children) do
-            Print:PrintCategory("\t\t", child.id, child.name);
+    for _, val in pairs(topLevelCategories) do
+        core.Print:PrintCategory("\t", val.id, val.name);
+        for _, child in pairs(val.children) do
+            core.Print:PrintCategory("\t\t", child.id, child.name);
         end
     end
 end
