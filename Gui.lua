@@ -1,6 +1,10 @@
 local _, core = ...;
 core.GUI = {};
 local GUI = core.GUI;
+GUI.window = nil;
+GUI.categories = nil;
+GUI.characters = nil;
+GUI.selectedCategoryID = nil;
 
 local vals = {
     scrollWidth = 200,
@@ -13,8 +17,15 @@ local vals = {
 }
 
 -- Displays the actual stats for the given category
-function GUI:ShowStatsForCategory(categoryID, categoryName, statsTexts, statsFrame, statsFrameWidth, scrollBar, categories, characters)
+function GUI:ShowStatsForCategory(categoryID)
+    local statsTexts = self.statsTexts;
+    local statsFrame = self.statsFrame;
+    local statsFrameWidth = self.statsFrameWidth;
+    local scrollBar = self.statsScrollBar;
+    local categories = self.categories;
+    local characters = self.characters;
     local statCount = GetCategoryNumAchievements(categoryID);
+    self.selectedCategoryID = categoryID;
     
     for offset = 1, statCount do
         local id, statName = GetAchievementInfo(categoryID, offset);
@@ -99,6 +110,17 @@ end
 
 -- Loads and displays the stats categories that exist
 function GUI:ShowStatCategories(categories, characters)
+    self.categories = categories;
+    self.characters = characters;
+
+    if self.window ~= nil then
+        self.window:Show();
+        if self.selectedCategoryID ~= nil then
+            self:ShowStatsForCategory(self.selectedCategoryID);
+        end
+        return;
+    end
+
     -- Main UI window
     local UIConfig = CreateFrame("Frame", "AccountWideStats", UIParent, "UIPanelDialogTemplate");
     UIConfig:SetSize(vals.windowWidth, vals.windowHeight);
@@ -167,9 +189,15 @@ function GUI:ShowStatCategories(categories, characters)
     UIConfig.StatsScrollFrame:SetScrollChild(statsFrame);
     UIConfig.StatsScrollFrame.ScrollBar:Hide();
     
-    statsTexts = {
+    local statsTexts = {
         count = 0
     };
+
+    self.window = UIConfig;
+    self.statsTexts = statsTexts;
+    self.statsFrame = statsFrame;
+    self.statsFrameWidth = statsFrameWidth;
+    self.statsScrollBar = UIConfig.StatsScrollFrame.ScrollBar;
 
     for key, val in pairs(topLevelCategories) do
         count = count + 1;
@@ -209,19 +237,19 @@ function GUI:ShowStatCategories(categories, characters)
         if btn.childCount == 0 then
             -- Register button to show stats for the category
             btn:SetScript("OnClick", function(...)
-                GUI:ShowStatsForCategory(btn.catID, btn.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);
+                GUI:ShowStatsForCategory(btn.catID);
             end)
         else
             -- Toggle open subcategories & show general stats
             btn:SetScript("OnClick", function(...)
                 GUI:ToggleStatCategory(buttons, count, buttonsFrame, btn.id, UIConfig.ScrollFrame.ScrollBar);
-                GUI:ShowStatsForCategory(btn.catID, btn.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);
+                GUI:ShowStatsForCategory(btn.catID);
             end)
 
             -- Register button to show stats for the children.
             for n, child in pairs(btn.children) do
                 child:SetScript("OnClick", function(...)
-                    GUI:ShowStatsForCategory(child.catID, child.catName, statsTexts, statsFrame, statsFrameWidth, UIConfig.StatsScrollFrame.ScrollBar, categories, characters);                        
+                    GUI:ShowStatsForCategory(child.catID);
                 end)
             end
         end
